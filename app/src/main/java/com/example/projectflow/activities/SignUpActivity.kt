@@ -7,15 +7,16 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.example.projectflow.R
 import com.example.projectflow.databinding.ActivitySignUpBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 
 class SignUpActivity : BaseActivity() {
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var auth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,6 @@ class SignUpActivity : BaseActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         setupActionBar()
-        auth = Firebase.auth
 
         binding.btnSignUp.setOnClickListener {
             registerUser()
@@ -51,28 +51,49 @@ class SignUpActivity : BaseActivity() {
         val email:String = binding.etEmail.text.toString().trim{ it <= ' '}
         val password: String = binding.etPassword.text.toString().trim{ it <= ' '}
 
-        if(validateForm(name, email, password)){
+        if (validateForm(name, email, password)) {
+            // Show the progress dialog.
             showProgressDialog(resources.getString(R.string.please_wait))
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
 
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    // Hide the progress dialog
                     hideProgressDialog()
-                        if (task.isSuccessful) {
-                            val firebaseUser: FirebaseUser = task.result!!.user!!
-                            val registeredEmail = firebaseUser.email!!
-                            Toast.makeText(
-                                this,
-                                "$name you successfully registered the email address $registeredEmail",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            FirebaseAuth.getInstance().signOut()
-//                            finish()
-                        } else {
-                            Toast.makeText(
-                                this,
-                                task.exception!!.message, Toast.LENGTH_LONG
-                            ).show()
-                        }
+
+                    // If the registration is successfully done
+                    if (task.isSuccessful) {
+
+                        // Firebase registered user
+                        val firebaseUser: FirebaseUser = task.result!!.user!!
+                        // Registered Email
+                        val registeredEmail = firebaseUser.email!!
+
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            "$name you have successfully registered with email id $registeredEmail.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        /**
+                         * Here the new user registered is automatically signed-in so we just sign-out the user from firebase
+                         * and send him to Intro Screen for Sign-In
+                         */
+
+                        /**
+                         * Here the new user registered is automatically signed-in so we just sign-out the user from firebase
+                         * and send him to Intro Screen for Sign-In
+                         */
+                        FirebaseAuth.getInstance().signOut()
+                        // Finish the Sign-Up Screen
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            task.exception!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+                }
         }
     }
 
