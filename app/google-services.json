@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "409026211459",
+    "project_id": "project-flow-fe488",
+    "storage_bucket": "project-flow-fe488.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409026211459:android:1c6c4202d169afc05535b6",
+        "android_client_info": {
+          "package_name": "com.example.projectflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC9mspKKzKLB3GIl3ntKcALsWNX8qcyp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

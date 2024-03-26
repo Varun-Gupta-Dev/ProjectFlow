@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        // Ensures that no action bar is displayed
+        <item name="windowActionBar">false</item>
+
+        // It ensures that the activity does not display title at the top
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>
