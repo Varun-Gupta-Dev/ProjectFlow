@@ -17,20 +17,24 @@ open class BaseActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressedOnce = false
     private lateinit var mProgressDialog: Dialog
+//    private lateinit var tvProgressText: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        tvProgressText = findViewById(R.id.tv_progress_text)
     }
     fun showProgressDialog(text: String){
+
         mProgressDialog = Dialog(this)
 
         /*Set the screen content from a layout resource.
       The resource will be inflated, adding all top-level views to the screen.*/
         mProgressDialog.setContentView(R.layout.dialog_progress)
-        val tvProgressText: TextView? = findViewById(R.id.tv_progress_text)
-        tvProgressText?.text = text
+
+//        tvProgressText.text = text
         //Start the dialog and display it on screen.
         mProgressDialog.show()
     }

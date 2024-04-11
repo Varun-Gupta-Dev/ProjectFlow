@@ -19,5 +19,5 @@
     <color name="transparent_black">#10000000</color>
 
     <color name="snackbar_error_color">#F72400</color>
-
+    <color name="status_bar_color">#1E4150</color>
 </resources>

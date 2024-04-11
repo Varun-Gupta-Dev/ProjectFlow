@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import android.widget.Toast
 import com.example.projectflow.databinding.ActivitySplashBinding
+import com.example.projectflow.firebase.FirestoreClass
 
 class SplashActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySplashBinding
+    private lateinit var binding: com.example.projectflow.databinding.ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,8 +27,14 @@ class SplashActivity : AppCompatActivity() {
         binding.tvAppName.typeface = typeFace
 
         Handler().postDelayed({
-            val intent = Intent(this, IntroActivity::class.java)
-            startActivity(intent)
+
+            var currentUserID = FirestoreClass().getCurrentUserId()
+            if(currentUserID.isNotEmpty()){
+                startActivity( Intent(this, MainActivity::class.java))
+            }else{
+                startActivity(Intent(this, IntroActivity::class.java))
+            }
+
             finish()
         }, 2500)
     }
