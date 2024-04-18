@@ -61,7 +61,7 @@ class SignUpActivity : BaseActivity() {
 
     private fun registerUser(){
         val name: String = binding.etName.text.toString().trim{ it <= ' '}
-        val email:String = binding.etEmail.text.toString().trim{ it <= ' '}
+        val email:String = binding.etEmailSignUp.text.toString().trim{ it <= ' '}
         val password: String = binding.etPassword.text.toString().trim{ it <= ' '}
 
         if (validateForm(name, email, password)) {
@@ -91,9 +91,10 @@ class SignUpActivity : BaseActivity() {
                     } else {
                         Toast.makeText(
                             this@SignUpActivity,
-                           "Registration failed",
-                            Toast.LENGTH_SHORT
+                           task.exception.toString(),
+                            Toast.LENGTH_LONG
                         ).show()
+                        hideProgressDialog()
                     }
                 }
         }

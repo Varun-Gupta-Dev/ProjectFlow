@@ -1,7 +1,6 @@
 package com.example.projectflow.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -63,7 +62,7 @@ class SignInActivity : BaseActivity() {
 
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                       FirestoreClass().signInUser(this@SignInActivity)
+                       FirestoreClass().loadUserData(this@SignInActivity)
                         val user = auth.currentUser
 
                     } else {
@@ -74,6 +73,7 @@ class SignInActivity : BaseActivity() {
                             "Sorry, you don't have an account!",
                             Toast.LENGTH_LONG,
                         ).show()
+                        hideProgressDialog()
                     }
                 }
 

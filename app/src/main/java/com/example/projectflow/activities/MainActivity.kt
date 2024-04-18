@@ -4,12 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.Window
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.example.projectflow.R
@@ -37,7 +33,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
         binding.navView.setNavigationItemSelectedListener(this)
 
-        FirestoreClass().signInUser(this)
+        FirestoreClass().loadUserData(this)
 
     }
 
@@ -98,8 +94,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when(item.itemId){
 
             R.id.nav_my_profile ->{
-                Toast.makeText(this, "My Profile", Toast.LENGTH_SHORT)
-                    .show()
+               startActivity(Intent(this, MyProfileActivity::class.java ))
             }
 
             R.id.nav_sign_out ->{

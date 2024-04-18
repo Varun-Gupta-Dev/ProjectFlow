@@ -20,4 +20,6 @@
 
     <color name="snackbar_error_color">#F72400</color>
     <color name="status_bar_color">#1E4150</color>
+
+    <color name="my_profile_background_color">#B0D5D6</color>
 </resources>

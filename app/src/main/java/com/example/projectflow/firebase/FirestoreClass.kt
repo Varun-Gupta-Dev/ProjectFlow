@@ -2,8 +2,8 @@ package com.example.projectflow.firebase
 
 import android.app.Activity
 import android.util.Log
-import android.widget.Toast
 import com.example.projectflow.activities.MainActivity
+import com.example.projectflow.activities.MyProfileActivity
 import com.example.projectflow.activities.SignInActivity
 import com.example.projectflow.activities.SignUpActivity
 import com.example.projectflow.models.User
@@ -29,7 +29,7 @@ class FirestoreClass {
             }
     }
 
-    fun signInUser(activity : Activity){
+    fun loadUserData(activity : Activity){
 
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
@@ -44,6 +44,9 @@ class FirestoreClass {
                     }
                     is MainActivity->{
                         activity.updateNavigationUserDetails(loggedInUser)
+                    }
+                    is MyProfileActivity->{
+                        activity.setUserDataInUI(loggedInUser)
                     }
                 }
 
