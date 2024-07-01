@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" >
-
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/status_bar_color</item>
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+<!--        <item name="android:windowLightStatusBar">true</item>-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        // Ensures that no action bar is displayed
+    <style name="AppTheme.NoActionBar" >
         <item name="windowActionBar">false</item>
-
-        // It ensures that the activity does not display title at the top
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent = "Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/status_bar_color</item>
-        <item name="android:textColorPrimary">@color/white</item>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
+<!--    <style name="MyProfileTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">-->
+<!--        <item name="colorPrimaryDark">@color/status_bar_color</item>-->
+<!--&lt;!&ndash;        <item name="android:statusBarColor">@color/status_bar_color</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:windowTranslucentStatus">true</item>&ndash;&gt;-->
+<!--    </style>-->
 
 </resources>

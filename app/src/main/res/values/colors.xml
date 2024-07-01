@@ -22,4 +22,7 @@
     <color name="status_bar_color">#1E4150</color>
 
     <color name="my_profile_background_color">#B0D5D6</color>
+    <color name="toolbar_color">#255366</color>
+    <color name="fab_color">#255366</color>
+    <color name="create_board_background_color">#B0D5D6</color>
 </resources>
