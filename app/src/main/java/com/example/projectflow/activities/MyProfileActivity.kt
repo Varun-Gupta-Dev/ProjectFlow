@@ -25,6 +25,7 @@ import com.example.projectflow.R
 import com.example.projectflow.databinding.ActivityMyProfileBinding
 import com.example.projectflow.firebase.FirestoreClass
 import com.example.projectflow.models.User
+import com.example.projectflow.utils.Constants
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.IOException
@@ -39,6 +40,7 @@ class MyProfileActivity : BaseActivity() {
 
     private var mSelectedImageFileUri: Uri? = null
     private var mProfileImageURL: String = ""
+    private lateinit var mUserDetails: User
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -49,7 +51,7 @@ class MyProfileActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupActionBar()
-        setStatusBarColor()
+        //setStatusBarColor()
         FirestoreClass().loadUserData(this)
 
         binding.ivProfileUserImage.setOnClickListener {
@@ -71,6 +73,9 @@ class MyProfileActivity : BaseActivity() {
         binding.btnUpdate.setOnClickListener {
             if(mSelectedImageFileUri != null){
                 uploadUserImage()
+            }else{
+                showProgressDialog("Please Wait")
+                updateUserProfileData()
             }
         }
     }
@@ -127,22 +132,23 @@ class MyProfileActivity : BaseActivity() {
         }
         binding.toolbarMyProfileActivity.setNavigationOnClickListener { onBackPressed() }
     }
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun setStatusBarColor() {
-        // Check if the device is running on Android Lollipop or higher
-        // Get the window object
-        val window: Window = window
-
-        // Set the status bar color
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
-            window.statusBarColor = resources.getColor(R.color.status_bar_color, theme)
-            
-
-    }
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun setStatusBarColor() {
+//        // Check if the device is running on Android Lollipop or higher
+//        // Get the window object
+//        val window: Window = window
+//
+//        // Set the status bar color
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//
+//            window.statusBarColor = resources.getColor(R.color.status_bar_color, theme)
+//
+//
+//    }
 
     fun setUserDataInUI(user: User){
 
+        mUserDetails = user
         Glide
             .with(this)
             .load(user.image)
@@ -155,6 +161,33 @@ class MyProfileActivity : BaseActivity() {
             if(user.mobile != 0L){
                 binding.etMobile.setText(user.mobile.toString())
             }
+    }
+
+    private fun updateUserProfileData(){
+        val userHashmap = HashMap<String,Any>()
+        var anyChangesMade = false
+
+         if(mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image){
+             userHashmap[Constants.IMAGE] = mProfileImageURL
+             anyChangesMade = true
+         }
+        if(binding.etName.text.toString() != mUserDetails.name){
+            userHashmap[Constants.NAME] = binding.etName.text.toString()
+            anyChangesMade = true
+        }
+        if(binding.etMobile.text.isNullOrEmpty()){
+            hideProgressDialog()
+            Toast.makeText(this, "Please Enter your mobile number.", Toast.LENGTH_LONG).show()
+            anyChangesMade = false
+        }else if(binding.etMobile.text.toString() != mUserDetails.mobile.toString()){
+            userHashmap[Constants.MOBILE] = binding.etMobile.text.toString().toLong()
+            anyChangesMade = true
+        }
+        if (anyChangesMade){
+            FirestoreClass().updateUserProfileData(this,userHashmap)
+        }else {
+            Toast.makeText(this, "You have made no changes in your profile.", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun uploadUserImage(){
@@ -179,7 +212,7 @@ class MyProfileActivity : BaseActivity() {
                     mProfileImageURL = uri.toString()
 
                     hideProgressDialog()
-                    // TODO Update User Profile Data
+                    updateUserProfileData()
                 }
             }.addOnFailureListener {
                 exception->
@@ -197,5 +230,11 @@ class MyProfileActivity : BaseActivity() {
     private fun getFileExtension(uri:Uri?): String?{
         return MimeTypeMap.getSingleton()
             .getExtensionFromMimeType(contentResolver.getType(uri!!))
+    }
+
+    fun profileUpdateSuccess(){
+        hideProgressDialog()
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 }

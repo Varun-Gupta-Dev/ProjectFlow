@@ -2,6 +2,7 @@ package com.example.projectflow.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import com.example.projectflow.activities.MainActivity
 import com.example.projectflow.activities.MyProfileActivity
 import com.example.projectflow.activities.SignInActivity
@@ -29,6 +30,26 @@ class FirestoreClass {
             }
     }
 
+    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>){
+
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserId())
+            .update(userHashMap)
+            .addOnSuccessListener {
+                Log.i(activity.javaClass.simpleName, "Profile Data updated successfully.")
+                Toast.makeText(activity, "Profile Updated Successfully!",Toast.LENGTH_SHORT).show()
+                activity.profileUpdateSuccess()
+            }.addOnFailureListener {
+                e->
+               activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while updating profile",
+                    e
+                )
+                Toast.makeText(activity, "Error when updating the profile!",Toast.LENGTH_SHORT).show()
+            }
+    }
     fun loadUserData(activity : Activity){
 
         mFireStore.collection(Constants.USERS)
