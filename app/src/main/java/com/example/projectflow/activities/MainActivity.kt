@@ -37,9 +37,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        fabCreateBoard = findViewById(R.id.fab_create_board)
         setupActionBar()
+        fabCreateBoard = findViewById(R.id.fab_create_board)
+
         binding.navView.setNavigationItemSelectedListener(this)
 
         FirestoreClass().loadUserData(this)
