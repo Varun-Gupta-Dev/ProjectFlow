@@ -14,6 +14,7 @@ import com.example.projectflow.R
 import com.example.projectflow.databinding.ActivityMainBinding
 import com.example.projectflow.firebase.FirestoreClass
 import com.example.projectflow.models.User
+import com.example.projectflow.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +25,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var binding: ActivityMainBinding
     private  lateinit var navUserImage: CircleImageView
     private  lateinit var tvUsername: TextView
+    private lateinit var mUserName: String
+
     private var fabCreateBoard: FloatingActionButton? = null
 
     private lateinit var toolBarMainActivity: Toolbar
@@ -45,7 +48,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         FirestoreClass().loadUserData(this)
 
         fabCreateBoard?.setOnClickListener {
-            startActivity(Intent(this, CreateBoardActivity::class.java))
+            val intent = Intent(this, CreateBoardActivity::class.java)
+            intent.putExtra(Constants.NAME, mUserName)
+            startActivity(intent)
         }
 
     }
@@ -84,6 +89,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         navUserImage = findViewById(R.id.nav_user_image)
         tvUsername = findViewById(R.id.tv_username)
+        mUserName = user.name
 
 //        navUserImage.let {
 //            Glide
