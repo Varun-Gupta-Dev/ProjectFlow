@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:background="@drawable/create_board_activity_background"
+        android:background="@drawable/ic_background"
         android:padding="@dimen/create_board_content_padding">
 
         <androidx.cardview.widget.CardView

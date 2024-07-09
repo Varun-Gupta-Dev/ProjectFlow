@@ -25,4 +25,6 @@
     <color name="toolbar_color">#255366</color>
     <color name="fab_color">#255366</color>
     <color name="create_board_background_color">#B0D5D6</color>
+
+    <color name="divider_color">#EAEAEA</color>
 </resources>
