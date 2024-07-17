@@ -68,9 +68,7 @@ class FirestoreClass {
 
 
         fun getBoardsList(activity: MainActivity){
-            Toast.makeText(activity, "Under getBoardsList", Toast.LENGTH_SHORT).show()
             activity.hideProgressDialog()
-            Toast.makeText(activity, "Executed hideProgressDialog", Toast.LENGTH_SHORT).show()
             mFireStore.collection(Constants.BOARDS)
                 .whereArrayContains(Constants.ASSIGNED_TO, getCurrentUserId())
                 .get()
@@ -79,7 +77,6 @@ class FirestoreClass {
                     Log.i(activity.javaClass.simpleName, document.documents.toString())
                     val boardList: ArrayList<Board> = ArrayList()
                     for(i in document.documents){
-                        Toast.makeText(activity, "Inside for loop", Toast.LENGTH_SHORT).show()
                         val board = i.toObject(Board::class.java)!!
                         board.documentId = i.id
                         boardList.add(board)
