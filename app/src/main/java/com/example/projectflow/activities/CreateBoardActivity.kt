@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class CreateBoardActivity : BaseActivity() {
     private lateinit var binding: ActivityCreateBoardBinding
     private var mBoardImageURL: String = ""
     private lateinit var mUserName: String
+    private var tvBoardCreatedDate: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,6 +43,7 @@ class CreateBoardActivity : BaseActivity() {
             mUserName = intent.getStringExtra(Constants.NAME)!!
         }
         ivProfileUserImage = findViewById(R.id.iv_profile_user_image)
+        tvBoardCreatedDate = findViewById(R.id.tv_board_created_date)
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
 //            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -91,6 +94,7 @@ class CreateBoardActivity : BaseActivity() {
             binding.etBoardName.text.toString(),
             mBoardImageURL,
             mUserName,
+            tvBoardCreatedDate?.text.toString(),
             assignedUsersArrayList
         )
 

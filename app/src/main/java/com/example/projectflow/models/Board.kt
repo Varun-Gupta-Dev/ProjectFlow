@@ -7,7 +7,9 @@ data class Board(
     val name: String = "",
     val image: String = "",
     val createdBy: String = "",
-    val assignedTo: ArrayList<String> = ArrayList()
+    val createdOn: String = "",
+    val assignedTo: ArrayList<String> = ArrayList(),
+    var documentId: String = ""
 ) : Parcelable{
     //Indicates that the Boards class implements the Parcelable interface. This is essential for passing instances of this
     // class between different components of an Android application, such as activities or fragments,
@@ -16,7 +18,9 @@ data class Board(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.createStringArrayList()!!
+        parcel.readString()!!,
+        parcel.createStringArrayList()!!,
+        parcel.readString()!!
     ){
 
     }
@@ -28,6 +32,7 @@ data class Board(
         writeString(image)
         writeString(createdBy)
         writeStringList(assignedTo)
+        writeString(documentId)
     }
 
     companion object CREATOR : Parcelable.Creator<Board> {

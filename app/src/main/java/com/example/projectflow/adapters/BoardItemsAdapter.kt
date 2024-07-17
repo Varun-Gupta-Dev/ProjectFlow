@@ -67,6 +67,6 @@ open class BoardItemsAdapter(
         val iv_board_image: CircleImageView = itemView.findViewById(R.id.iv_board_image)
          val tv_name: TextView = itemView.findViewById(R.id.tv_name)
          val tv_created_by: TextView = itemView.findViewById(R.id.tv_created_by)
-         val tv_created_date: TextView = itemView.findViewById(R.id.tv_created_date)
+         val tv_created_date: TextView = itemView.findViewById(R.id.tv_board_created_date)
     }
 }

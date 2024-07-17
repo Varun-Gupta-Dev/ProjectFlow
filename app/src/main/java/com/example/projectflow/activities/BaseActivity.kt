@@ -33,6 +33,7 @@ open class BaseActivity : AppCompatActivity() {
         /*Set the screen content from a layout resource.
       The resource will be inflated, adding all top-level views to the screen.*/
         mProgressDialog.setContentView(R.layout.dialog_progress)
+        mProgressDialog.setCancelable(false)
 
 //        tvProgressText.text = text
         //Start the dialog and display it on screen.
@@ -40,8 +41,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun hideProgressDialog(){
-        mProgressDialog = Dialog(this)
-        mProgressDialog.dismiss()
+        if(mProgressDialog.isShowing){
+            mProgressDialog.dismiss()
+        }
+
     }
 
     fun getCurrentUserID(): String{
