@@ -9,18 +9,23 @@ data class Board(
     val createdBy: String = "",
     val createdOn: String = "",
     val assignedTo: ArrayList<String> = ArrayList(),
-    var documentId: String = ""
+    var documentId: String = "",
+   var taskList: ArrayList<Task> = ArrayList()
 ) : Parcelable{
     //Indicates that the Boards class implements the Parcelable interface. This is essential for passing instances of this
     // class between different components of an Android application, such as activities or fragments,
     // using Intents or Bundles.
+//    Parcel: A Parcel is a container for a message (data and object references) that can be sent through an IBinder.
+    //    It's used for inter-process communication (IPC) in Android, such as when passing
+    //    data between activities or services.
     constructor( parcel: Parcel): this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.createStringArrayList()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.createTypedArrayList(Task.CREATOR)!!
     ){
 
     }
@@ -33,6 +38,7 @@ data class Board(
         writeString(createdBy)
         writeStringList(assignedTo)
         writeString(documentId)
+        writeTypedList(taskList)
     }
 
     companion object CREATOR : Parcelable.Creator<Board> {

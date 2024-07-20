@@ -8,6 +8,7 @@ import com.example.projectflow.activities.MainActivity
 import com.example.projectflow.activities.MyProfileActivity
 import com.example.projectflow.activities.SignInActivity
 import com.example.projectflow.activities.SignUpActivity
+import com.example.projectflow.activities.TaskListActivity
 import com.example.projectflow.models.Board
 import com.example.projectflow.models.User
 import com.example.projectflow.utils.Constants
@@ -44,6 +45,26 @@ class FirestoreClass {
     process. It hides any progress dialog being displayed, logs the error, and potentially provides
     feedback to the user (not explicitly shown in this code snippet).
  */
+
+    fun getBoardDetails(activity: TaskListActivity,  documentId: String){
+
+        activity.hideProgressDialog()
+        mFireStore.collection(Constants.BOARDS)
+            .document(documentId)
+            .get()
+            .addOnSuccessListener {
+                    document ->
+                Log.i(activity.javaClass.simpleName, document.toString())
+
+            // TODO get board details
+                activity.boardDetails(document.toObject(Board::class.java)!!)
+
+            }.addOnFailureListener {
+                    e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
+            }
+    }
     fun createBoard(activity: CreateBoardActivity, board: Board) {
         mFireStore.collection(Constants.BOARDS)
             .document()// Generates a new unique document ID
