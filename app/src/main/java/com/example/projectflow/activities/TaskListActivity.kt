@@ -5,10 +5,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projectflow.R
+import com.example.projectflow.adapters.TaskListItemsAdapter
 import com.example.projectflow.databinding.ActivityTaskListBinding
 import com.example.projectflow.firebase.FirestoreClass
 import com.example.projectflow.models.Board
+import com.example.projectflow.models.Task
 import com.example.projectflow.utils.Constants
 
 class TaskListActivity : BaseActivity() {
@@ -46,5 +49,14 @@ class TaskListActivity : BaseActivity() {
     fun boardDetails(board: Board){
         hideProgressDialog()
         setupActionBar(board.name)
+
+        val addtaskList = Task(resources.getString(R.string.add_list))
+        board.taskList.add(addtaskList)
+
+        binding.rvTaskList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvTaskList.setHasFixedSize(true)
+
+        val adapter = TaskListItemsAdapter(this,board.taskList)
+        binding.rvTaskList.adapter = adapter
     }
 }
