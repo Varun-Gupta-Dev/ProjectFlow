@@ -15,6 +15,9 @@ import com.example.projectflow.models.Task
 import com.example.projectflow.utils.Constants
 
 class TaskListActivity : BaseActivity() {
+
+    private lateinit var mBoardDetails: Board
+
     private lateinit var binding: ActivityTaskListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +38,21 @@ class TaskListActivity : BaseActivity() {
         FirestoreClass().getBoardDetails(this, boardDocumentId)
 
     }
-    private fun setupActionBar(title: String){
+    private fun setupActionBar(){
         setSupportActionBar(binding.toolbarTaskListActivity)
         val actionBar = supportActionBar
         if(actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
-            actionBar.title = title
+            actionBar.title = mBoardDetails.name
         }
         binding.toolbarTaskListActivity.setNavigationOnClickListener { onBackPressed() }
     }
 
     fun boardDetails(board: Board){
+        mBoardDetails = board
         hideProgressDialog()
-        setupActionBar(board.name)
+        setupActionBar()
 
         val addtaskList = Task(resources.getString(R.string.add_list))
         board.taskList.add(addtaskList)
@@ -58,5 +62,22 @@ class TaskListActivity : BaseActivity() {
 
         val adapter = TaskListItemsAdapter(this,board.taskList)
         binding.rvTaskList.adapter = adapter
+    }
+
+    fun addUpdateTaskListSuccess(){
+        hideProgressDialog()
+
+        showProgressDialog("Please Wait...")
+        FirestoreClass().getBoardDetails(this, mBoardDetails.documentId)
+    }
+
+    fun createTaskList(taskListName: String){
+        val task = Task(taskListName, FirestoreClass().getCurrentUserId())
+        mBoardDetails.taskList.add(0, task)
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+
+        showProgressDialog("Please Wait")
+
+        FirestoreClass().addUpdateTaskList(this, mBoardDetails)
     }
 }
