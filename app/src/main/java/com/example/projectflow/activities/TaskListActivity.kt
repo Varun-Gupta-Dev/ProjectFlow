@@ -54,8 +54,8 @@ class TaskListActivity : BaseActivity() {
         hideProgressDialog()
         setupActionBar()
 
-        val addtaskList = Task(resources.getString(R.string.add_list))
-        board.taskList.add(addtaskList)
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        board.taskList.add(addTaskList)
 
         binding.rvTaskList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvTaskList.setHasFixedSize(true)
@@ -78,6 +78,24 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog("Please Wait")
 
+        FirestoreClass().addUpdateTaskList(this, mBoardDetails)
+    }
+    fun updateTaskList(position: Int, listName: String, model: Task){
+        val task = Task(listName, model.createdBy)
+
+        mBoardDetails.taskList[position] = task
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size-1)
+
+        showProgressDialog("Please Wait...")
+        FirestoreClass().addUpdateTaskList(this, mBoardDetails)
+
+    }
+
+    fun deleteTaskList(position: Int){
+        mBoardDetails.taskList.removeAt(position)
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size-1)
+
+        showProgressDialog("Please Wait...")
         FirestoreClass().addUpdateTaskList(this, mBoardDetails)
     }
 }
