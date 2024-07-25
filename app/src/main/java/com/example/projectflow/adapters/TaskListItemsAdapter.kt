@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectflow.R
 import com.example.projectflow.activities.TaskListActivity
@@ -119,6 +120,11 @@ open class TaskListItemsAdapter(
                     }
 
                 }
+
+                holder.rv_card_list.layoutManager = LinearLayoutManager(context)
+                holder.rv_card_list.setHasFixedSize(true)
+                val adapter = CardListItemsAdapter(context, model.cards)
+                holder.rv_card_list.adapter = adapter
             }
 
         }
@@ -177,6 +183,7 @@ open class TaskListItemsAdapter(
         val ib_close_card_name: ImageButton = itemView.findViewById(R.id.ib_close_card_name)
         val ib_done_card_name: ImageButton = itemView.findViewById(R.id.ib_done_card_name)
         val et_card_name: EditText = itemView.findViewById(R.id.et_card_name)
+        val rv_card_list: RecyclerView = itemView.findViewById(R.id.rv_card_list)
 
     }
 }
