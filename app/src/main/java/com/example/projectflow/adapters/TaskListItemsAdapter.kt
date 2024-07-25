@@ -98,6 +98,28 @@ open class TaskListItemsAdapter(
 
                 alertDialogForDeleteList(position, model.title)
             }
+            holder.tv_add_card.setOnClickListener {
+                holder.tv_add_card.visibility = View.GONE
+                holder.cv_add_card.visibility = View.VISIBLE
+
+                // TODO (Step 4: Add a click event for closing the view for card add in the task list.)
+                // START
+                holder.ib_close_card_name.setOnClickListener {
+                    holder.tv_add_card.visibility = View.VISIBLE
+                    holder.cv_add_card.visibility = View.GONE
+                }
+                holder.ib_done_card_name.setOnClickListener {
+                    val cardName = holder.et_card_name.text.toString()
+                    if(cardName.isNotEmpty()){
+                        if(context is TaskListActivity){
+                            context.addCardToTaskList(position, cardName)
+                        }
+                    }else{
+                        Toast.makeText(context, "Please Enter Card Name.", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
 
         }
     }
@@ -150,6 +172,11 @@ open class TaskListItemsAdapter(
         val cv_edit_task_list_name: CardView = itemView.findViewById(R.id.cv_edit_task_list_name)
         val ib_done_edit_list_name: ImageButton = itemView.findViewById(R.id.ib_done_edit_list_name)
         val ib_delete_list: ImageButton = itemView.findViewById(R.id.ib_delete_list)
+        val tv_add_card: TextView = itemView.findViewById(R.id.tv_add_card)
+        val cv_add_card: CardView = itemView.findViewById(R.id.cv_add_card)
+        val ib_close_card_name: ImageButton = itemView.findViewById(R.id.ib_close_card_name)
+        val ib_done_card_name: ImageButton = itemView.findViewById(R.id.ib_done_card_name)
+        val et_card_name: EditText = itemView.findViewById(R.id.et_card_name)
 
     }
 }
